@@ -509,6 +509,7 @@ GameObject:
   - component: {fileID: 7034642367522601882}
   - component: {fileID: 4115961327705668099}
   - component: {fileID: 5650524055303313356}
+  - component: {fileID: -4777879242858714945}
   m_Layer: 0
   m_Name: king
   m_TagString: Untagged
@@ -589,3 +590,16 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &-4777879242858714945
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9169616957535407329}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 2.8375297, y: 1.962023, z: 2.134829}
+  m_Center: {x: 0.08804833, y: -2.3548096e-15, z: -0.3314099}

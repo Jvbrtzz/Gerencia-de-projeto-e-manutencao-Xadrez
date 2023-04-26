@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BoardGenerator : MonoBehaviour
+public class BoardController : MonoBehaviour
 {
     [SerializeField] private int squareSize = 4;
     [SerializeField] private GameObject squarePrefab;
@@ -12,6 +12,19 @@ public class BoardGenerator : MonoBehaviour
 
     // Start is called before the first frame update
     void Start()
+    {
+        EventsManager.SelectPiece += SelectPiece;
+        
+        InitializeGrid();
+        SpawnPieces();
+    }
+
+    private void OnDestroy() 
+    {
+        EventsManager.SelectPiece -= SelectPiece;
+    }
+
+    void InitializeGrid()
     {
         for (int i = 0; i < 8; i++)
         {
@@ -24,8 +37,6 @@ public class BoardGenerator : MonoBehaviour
                 squareGrid.Add(sqGO.name, new Square(sqGO.transform, GetAlphabetLetter(e), i + 1));
             }
         }
-
-        SpawnPieces();
     }
 
     void SpawnPieces()
@@ -40,15 +51,17 @@ public class BoardGenerator : MonoBehaviour
 
             pawn.AddComponent<Pawn>();
             pawn.GetComponent<Pawn>().currentSquare = squareGrid[GetAlphabetLetter(p) + "2"];
-
-            foreach(var square in squareGrid)
-            {
-                square.Value.transform.GetComponent<MeshRenderer>().enabled = pawn.GetComponent<Piece>().LegalMovement(square.Value);
-            }
-            return;
         }
+    }
 
-        
+    void SelectPiece(object[] obj)
+    {
+        Piece piece = (Piece)obj[0];
+
+        foreach(var square in squareGrid)
+        {
+            square.Value.transform.GetComponent<MeshRenderer>().enabled = piece.LegalMovement(square.Value);
+        }
     }
 
     char GetAlphabetLetter(int pos)
