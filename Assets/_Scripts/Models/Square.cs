@@ -1,14 +1,14 @@
 using UnityEngine;
 
-public class Square
+public class Square : MonoBehaviour
 {
-    public Transform transform;
     public char column;
     public int row;
+    
+    public Piece currentPiece;
 
-    public Square(Transform _transform, char _column, int _row)
+    public Square(char _column, int _row)
     {
-        transform = _transform;
         column = _column;
         row = _row;
     }

@@ -7,13 +7,15 @@ public class BoardController : MonoBehaviour
     [SerializeField] private int squareSize = 4;
     [SerializeField] private GameObject squarePrefab;
     [SerializeField] private Dictionary<string, Square> squareGrid = new Dictionary<string, Square>();
-
+    [SerializeField] private Material hoverMaterial;
+    [SerializeField] private Material selectableMaterial;
     [SerializeField] private GameObject pawnPrefab;
 
     // Start is called before the first frame update
     void Start()
     {
-        EventsManager.SelectPiece += SelectPiece;
+        EventsManager.HoverPiece += SelectPiece;
+        EventsManager.HoverElement += Hover;
         
         InitializeGrid();
         SpawnPieces();
@@ -21,7 +23,8 @@ public class BoardController : MonoBehaviour
 
     private void OnDestroy() 
     {
-        EventsManager.SelectPiece -= SelectPiece;
+        EventsManager.HoverPiece -= SelectPiece;
+        EventsManager.HoverElement -= Hover;
     }
 
     void InitializeGrid()
@@ -34,7 +37,10 @@ public class BoardController : MonoBehaviour
                 var sqGO = Instantiate(squarePrefab, this.transform);
                 sqGO.transform.localPosition = pos;
                 sqGO.name = GetAlphabetLetter(e) + (i + 1).ToString();
-                squareGrid.Add(sqGO.name, new Square(sqGO.transform, GetAlphabetLetter(e), i + 1));
+                sqGO.AddComponent<Square>();
+                sqGO.GetComponent<Square>().column = GetAlphabetLetter(e);
+                sqGO.GetComponent<Square>().row = i + 1;
+                squareGrid.Add(sqGO.name, sqGO.GetComponent<Square>());
             }
         }
     }
@@ -50,7 +56,7 @@ public class BoardController : MonoBehaviour
             pawn.transform.Rotate(new Vector3(0, 0, 90));
 
             pawn.AddComponent<Pawn>();
-            pawn.GetComponent<Pawn>().currentSquare = squareGrid[GetAlphabetLetter(p) + "2"];
+            pawn.GetComponent<Pawn>().UpdateSquareInformation(squareGrid[GetAlphabetLetter(p) + "2"]);
         }
     }
 
@@ -60,8 +66,20 @@ public class BoardController : MonoBehaviour
 
         foreach(var square in squareGrid)
         {
+            square.Value.transform.GetComponent<MeshRenderer>().material = selectableMaterial;
             square.Value.transform.GetComponent<MeshRenderer>().enabled = piece.LegalMovement(square.Value);
         }
+    }
+
+    void Hover(object[] obj)
+    {
+        foreach(var square in squareGrid)
+        {
+            square.Value.transform.GetComponent<MeshRenderer>().enabled = false;
+        }
+        
+        squareGrid[(string)obj[1]].transform.GetComponent<MeshRenderer>().material = hoverMaterial;
+        squareGrid[(string)obj[1]].transform.GetComponent<MeshRenderer>().enabled = true;
     }
 
     char GetAlphabetLetter(int pos)
