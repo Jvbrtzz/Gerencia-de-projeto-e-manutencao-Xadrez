@@ -47,5 +47,10 @@ public class PlayerController : MonoBehaviour
                 }
             }
         }
+
+        if(hits.Length == 0)
+        {
+            EventsManager.Get().Call_HoverNothing();
+        }
     }
 }

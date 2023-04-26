@@ -16,6 +16,7 @@ public class BoardController : MonoBehaviour
     {
         EventsManager.HoverPiece += SelectPiece;
         EventsManager.HoverElement += Hover;
+        EventsManager.HoverNothing += HoverNothing;
         
         InitializeGrid();
         SpawnPieces();
@@ -25,6 +26,7 @@ public class BoardController : MonoBehaviour
     {
         EventsManager.HoverPiece -= SelectPiece;
         EventsManager.HoverElement -= Hover;
+        EventsManager.HoverNothing -= HoverNothing;
     }
 
     void InitializeGrid()
@@ -68,6 +70,14 @@ public class BoardController : MonoBehaviour
         {
             square.Value.transform.GetComponent<MeshRenderer>().material = selectableMaterial;
             square.Value.transform.GetComponent<MeshRenderer>().enabled = piece.LegalMovement(square.Value);
+        }
+    }
+
+    void HoverNothing(object[] obj)
+    {
+        foreach(var square in squareGrid)
+        {
+            square.Value.transform.GetComponent<MeshRenderer>().enabled = false;
         }
     }
 

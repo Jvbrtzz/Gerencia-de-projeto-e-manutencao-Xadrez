@@ -21,6 +21,7 @@ public class EventsManager : Singleton
     public delegate void EventsManagerEvent(object[] obj = null);
     public static event EventsManagerEvent HoverPiece;
     public static event EventsManagerEvent HoverElement;
+    public static event EventsManagerEvent HoverNothing;
 
 
 
@@ -32,6 +33,11 @@ public class EventsManager : Singleton
     public void Call_HoverElement(string element, string square)
     {
         HoverElement?.Invoke(new object[] { element, square });
+    }
+
+    public void Call_HoverNothing()
+    {
+        HoverNothing?.Invoke(new object[] { });
     }
 
     public void Call_HoverPiece(Piece hoveredPiece)

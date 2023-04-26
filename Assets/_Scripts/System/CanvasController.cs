@@ -12,16 +12,23 @@ public class CanvasController : MonoBehaviour
     void Start()
     {
         EventsManager.HoverElement += Hover; 
+        EventsManager.HoverNothing += HoverNothing; 
     }
 
     private void OnDestroy() 
     {
         EventsManager.HoverElement -= Hover; 
+        EventsManager.HoverNothing -= HoverNothing; 
     }
 
     void Hover(object[] obj)
     {
         hoverInfo.text = (string)obj[0] + " [" + ((string)obj[1]).ToUpper() + "]";
+    }
+
+    void HoverNothing(object[] obj)
+    {
+        hoverInfo.text = "";
     }
 
     // Update is called once per frame
