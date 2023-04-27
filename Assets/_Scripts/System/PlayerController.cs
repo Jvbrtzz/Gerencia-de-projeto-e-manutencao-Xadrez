@@ -2,17 +2,78 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour 
 {
+    [SerializeField] private bool selectingPiece;
+    [SerializeField] private Material ghostMaterial;
+    private GameObject ghostPiece;
+    
     public void OnPieceHovered(Piece piece)
     {
         if(GameManager.Get().isPlayersTurn)
         {
             EventsManager.Get().Call_HoverPiece(piece);
+
+            if (Input.GetKeyDown(KeyCode.Mouse0))
+            {
+                selectingPiece = true;
+                GameManager.Get().selectedPiece = piece;
+            }
         }
     }
 
     private void Update() 
     {
-       Target();
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            StopSelection();
+        }
+
+        if (selectingPiece && GameManager.Get().selectedPiece != null)
+        {
+            SelectMovablePiece();
+            return;
+        }
+        Target();
+    }
+    public void StopSelection()
+    {
+        if (ghostPiece != null)
+            Destroy(ghostPiece);
+
+        GameManager.Get().selectedPiece = null;
+        selectingPiece = true;
+    }
+
+    void SelectMovablePiece()
+    {
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+        RaycastHit[] hits = Physics.RaycastAll(ray);
+
+        for (int i = 0; i < hits.Length; i++)
+        {
+            RaycastHit hit = hits[i];
+            if (hit.collider.GetComponent<Square>() != null)
+            {
+                if (ghostPiece != null)
+                {
+                    Destroy(ghostPiece);
+                }
+                var square = hit.collider.GetComponent<Square>();
+                if(GameManager.Get().possibleSquares.Contains(square))
+                {
+                    ghostPiece = Instantiate(GameManager.Get().selectedPiece.transform.gameObject, square.transform);
+                    ghostPiece.transform.localPosition = new Vector3(0, GameManager.Get().selectedPiece.GetComponent<Piece>().initialY, 0);
+
+                    var mats = ghostPiece.GetComponent<MeshRenderer>().materials;
+                    var newGhostMaterial = new Material[mats.Length];
+                    for(int e = 0; e < mats.Length; e++)
+                    {
+                        newGhostMaterial[e] = ghostMaterial;
+                    }
+                    ghostPiece.GetComponent<MeshRenderer>().materials = newGhostMaterial;
+                }
+            }
+        }
     }
 
     void Target()
@@ -27,6 +88,7 @@ public class PlayerController : MonoBehaviour
             if (hit.collider.GetComponent<Piece>() != null)
             {
                 var piece = hit.collider.GetComponent<Piece>();
+
                 EventsManager.Get().Call_HoverElement(
                     piece.pieceName,
                     piece.currentSquare.column + piece.currentSquare.row.ToString()

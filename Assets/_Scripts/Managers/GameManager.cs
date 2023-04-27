@@ -27,6 +27,8 @@ public class GameManager : Singleton
     #region Variables
 
     public bool isPlayersTurn = true;
+    public Piece selectedPiece;
+    public List<Square> possibleSquares = new List<Square>();
 
     #endregion
 

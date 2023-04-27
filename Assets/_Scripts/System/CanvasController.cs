@@ -5,6 +5,7 @@ using TMPro;
 
 public class CanvasController : MonoBehaviour
 {
+    public GameObject selectingMenu;
     public TextMeshProUGUI turnCounter;
     public TextMeshProUGUI hoverInfo;
 
@@ -34,6 +35,7 @@ public class CanvasController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        selectingMenu.SetActive(GameManager.Get().selectedPiece != null);
         turnCounter.text = GameManager.Get().isPlayersTurn ? CommonData.Text.playerTurn : CommonData.Text.opponentTurn;
     }
 }

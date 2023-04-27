@@ -23,6 +23,8 @@ public class EventsManager : Singleton
     public static event EventsManagerEvent HoverElement;
     public static event EventsManagerEvent HoverNothing;
 
+    public delegate void CallbackEvent(object[] obj = null);
+    public static event CallbackEvent SelectPiece;
 
 
     public override void Setup()

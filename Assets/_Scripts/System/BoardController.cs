@@ -10,6 +10,7 @@ public class BoardController : MonoBehaviour
     [SerializeField] private Material hoverMaterial;
     [SerializeField] private Material selectableMaterial;
     [SerializeField] private GameObject pawnPrefab;
+    [SerializeField] private GameObject rookPrefab;
 
     // Start is called before the first frame update
     void Start()
@@ -27,6 +28,11 @@ public class BoardController : MonoBehaviour
         EventsManager.HoverPiece -= SelectPiece;
         EventsManager.HoverElement -= Hover;
         EventsManager.HoverNothing -= HoverNothing;
+    }
+
+    private void Update()
+    {
+       
     }
 
     void InitializeGrid()
@@ -60,16 +66,30 @@ public class BoardController : MonoBehaviour
             pawn.AddComponent<Pawn>();
             pawn.GetComponent<Pawn>().UpdateSquareInformation(squareGrid[GetAlphabetLetter(p) + "2"]);
         }
+
+        var rook = Instantiate(rookPrefab);
+        rook.transform.parent = squareGrid[GetAlphabetLetter(0) + "1"].transform;
+        rook.transform.Rotate(new Vector3(0, 0, 90));
+
+        rook.AddComponent<Rook>();
+        rook.transform.localPosition = new Vector3(0, rook.GetComponent<Rook>().initialY, 0);
+        rook.GetComponent<Rook>().UpdateSquareInformation(squareGrid[GetAlphabetLetter(0) + "1"]);
     }
 
     void SelectPiece(object[] obj)
     {
         Piece piece = (Piece)obj[0];
 
+        GameManager.Get().possibleSquares.Clear();
+
         foreach(var square in squareGrid)
         {
             square.Value.transform.GetComponent<MeshRenderer>().material = selectableMaterial;
             square.Value.transform.GetComponent<MeshRenderer>().enabled = piece.LegalMovement(square.Value);
+            if(piece.LegalMovement(square.Value))
+            {
+                GameManager.Get().possibleSquares.Add(square.Value);
+            }
         }
     }
 

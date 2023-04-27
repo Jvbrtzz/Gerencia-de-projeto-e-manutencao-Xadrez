@@ -1,21 +1,23 @@
-public class Pawn : Piece
+public class Rook : Piece
 {
-    public override string pieceName { get { return "Peão"; } }
-    public override float initialY { get => 0; }
+    public override string pieceName { get { return "Torre"; } }
+    public override float initialY { get => -17.8f; }
 
     public override bool LegalMovement(Square possibleMovementSquare)
     {
         if(possibleMovementSquare.currentPiece != null)
         {
             //invalid if you own the piece
+            return false;
         }
 
         if(possibleMovementSquare.column == currentSquare.column)
         {
-            if(possibleMovementSquare.row > currentSquare.row && possibleMovementSquare.row <= currentSquare.row + 3)
-            {
-                return true;
-            }
+            return true;
+        }
+        else if(possibleMovementSquare.row == currentSquare.row)
+        {
+            return true;
         }
 
         return false;

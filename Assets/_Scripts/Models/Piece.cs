@@ -4,6 +4,7 @@ public abstract class Piece : MonoBehaviour
 {
     public virtual string pieceName { get; set; }
     public Square currentSquare;
+    public virtual float initialY { get; set; }
     
     public abstract bool LegalMovement(Square square);
 
