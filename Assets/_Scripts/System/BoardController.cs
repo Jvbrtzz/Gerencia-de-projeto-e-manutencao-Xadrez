@@ -68,12 +68,12 @@ public class BoardController : MonoBehaviour
         }
 
         var rook = Instantiate(rookPrefab);
-        rook.transform.parent = squareGrid[GetAlphabetLetter(0) + "1"].transform;
+        rook.transform.parent = squareGrid[GetAlphabetLetter(1) + "1"].transform;
         rook.transform.Rotate(new Vector3(0, 0, 90));
 
         rook.AddComponent<Rook>();
         rook.transform.localPosition = new Vector3(0, rook.GetComponent<Rook>().initialY, 0);
-        rook.GetComponent<Rook>().UpdateSquareInformation(squareGrid[GetAlphabetLetter(0) + "1"]);
+        rook.GetComponent<Rook>().UpdateSquareInformation(squareGrid[GetAlphabetLetter(1) + "1"]);
     }
 
     void SelectPiece(object[] obj)
@@ -81,14 +81,20 @@ public class BoardController : MonoBehaviour
         Piece piece = (Piece)obj[0];
 
         GameManager.Get().possibleSquares.Clear();
+        List<Square> possibleSquares = new List<Square>();
 
-        foreach(var square in squareGrid)
+        foreach(var sq in squareGrid)
         {
-            square.Value.transform.GetComponent<MeshRenderer>().material = selectableMaterial;
-            square.Value.transform.GetComponent<MeshRenderer>().enabled = piece.LegalMovement(square.Value);
-            if(piece.LegalMovement(square.Value))
+            possibleSquares.Add(sq.Value);
+        }
+
+        foreach(var movement in piece.LegalMovement(possibleSquares))
+        {
+            movement.Key.transform.GetComponent<MeshRenderer>().material = selectableMaterial;
+            movement.Key.transform.GetComponent<MeshRenderer>().enabled = movement.Value;
+            if(movement.Value)
             {
-                GameManager.Get().possibleSquares.Add(square.Value);
+                GameManager.Get().possibleSquares.Add(movement.Key);
             }
         }
     }
