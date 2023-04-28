@@ -4,6 +4,7 @@ public class PlayerController : MonoBehaviour
 {
     [SerializeField] private bool selectingPiece;
     [SerializeField] private Material ghostMaterial;
+    [SerializeField] private Outline outlined;
     private GameObject ghostPiece;
     
     public void OnPieceHovered(Piece piece)
@@ -15,6 +16,15 @@ public class PlayerController : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.Mouse0))
             {
                 selectingPiece = true;
+
+                if(piece.transform.gameObject.GetComponent<Outline>() == null)
+                {
+                    outlined = piece.transform.gameObject.AddComponent<Outline>();
+                    outlined.OutlineMode = Outline.Mode.OutlineVisible;
+                    outlined.OutlineColor = Color.green;
+                    outlined.OutlineWidth = 4;
+                }
+
                 GameManager.Get().selectedPiece = piece;
             }
         }
@@ -39,6 +49,11 @@ public class PlayerController : MonoBehaviour
         if (ghostPiece != null)
             Destroy(ghostPiece);
 
+        if(outlined != null)
+        {
+            Destroy(outlined);
+        }
+
         GameManager.Get().selectedPiece = null;
         selectingPiece = true;
     }
@@ -58,7 +73,9 @@ public class PlayerController : MonoBehaviour
                 {
                     Destroy(ghostPiece);
                 }
+
                 var square = hit.collider.GetComponent<Square>();
+
                 if(GameManager.Get().possibleSquares.Contains(square))
                 {
                     ghostPiece = Instantiate(GameManager.Get().selectedPiece.transform.gameObject, square.transform);
@@ -69,6 +86,10 @@ public class PlayerController : MonoBehaviour
                     for(int e = 0; e < mats.Length; e++)
                     {
                         newGhostMaterial[e] = ghostMaterial;
+                    }
+                    foreach(var child in ghostPiece.GetComponentsInChildren<MeshRenderer>())
+                    {
+                        child.materials = newGhostMaterial;
                     }
                     ghostPiece.GetComponent<MeshRenderer>().materials = newGhostMaterial;
                 }
@@ -85,6 +106,7 @@ public class PlayerController : MonoBehaviour
         for (int i = 0; i < hits.Length; i++)
         {
             RaycastHit hit = hits[i];
+
             if (hit.collider.GetComponent<Piece>() != null)
             {
                 var piece = hit.collider.GetComponent<Piece>();
