@@ -9,6 +9,11 @@ public abstract class Piece : MonoBehaviour
     
     public abstract Dictionary<Square, bool> LegalMovement(List<Square> squares);
 
+    private void OnDestroy() 
+    {
+        currentSquare.currentPiece = null;
+    }
+
     public void UpdateSquareInformation(Square newSquare)
     {
         if(currentSquare != null)

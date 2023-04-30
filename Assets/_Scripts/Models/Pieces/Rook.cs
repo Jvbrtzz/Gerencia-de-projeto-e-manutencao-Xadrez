@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using UnityEngine.Events;
 
 public class Rook : Piece
 {
@@ -8,54 +9,48 @@ public class Rook : Piece
     public override Dictionary<Square, bool> LegalMovement(List<Square> possibleMovementSquares)
     {
         Dictionary<Square, bool> legalMovement = new Dictionary<Square, bool>();
+        legalMovement = CalculateMovement(legalMovement, possibleMovementSquares, true);
+        legalMovement = CalculateMovement(legalMovement, possibleMovementSquares, false);
+
+        return legalMovement;
+    }
+
+    Dictionary<Square, bool> CalculateMovement(Dictionary<Square, bool> legalMovement, List<Square> possibleMovementSquares, bool isRow)
+    {
+        var listOfSquares = isRow ? ListRowPieces(possibleMovementSquares, currentSquare.row) : ListColumnPieces(possibleMovementSquares, currentSquare.column);
+        var startingPos = 0;
+
         var obstacle = false;
 
-        foreach(var possibleRowMovement in ListRowPieces(possibleMovementSquares, currentSquare.row))
+        for (int i = 0; i < listOfSquares.Count; i++)
         {
-            if(possibleRowMovement.currentPiece != null)
+            if(listOfSquares[i].currentPiece == this)
             {
-                if(!legalMovement.ContainsKey(possibleRowMovement))
-                    legalMovement.Add(possibleRowMovement, false);
+                startingPos = i;
+            }
+        }
 
-                if(possibleRowMovement.currentPiece != currentSquare.currentPiece)
-                    obstacle = true;
+        for(int forward = startingPos + 1; forward < 8; forward++)
+        {
+            if(listOfSquares[forward].currentPiece != null && listOfSquares[forward].name != currentSquare.name)
+            {
+                obstacle = true;
             }
 
-            if(obstacle)
-            {
-                if(!legalMovement.ContainsKey(possibleRowMovement))
-                    legalMovement.Add(possibleRowMovement, false);
-            }
-            else
-            {
-                if(!legalMovement.ContainsKey(possibleRowMovement))
-                    legalMovement.Add(possibleRowMovement, true);
-            }
+            legalMovement.Add(listOfSquares[forward], !obstacle);
         }
 
         obstacle = false;
 
-        foreach(var possibleColMovement in ListColumnPieces(possibleMovementSquares, currentSquare.column))
+        for(int backwards = startingPos - 1; backwards >= 0; backwards--)
         {
-            if(possibleColMovement.currentPiece != null)
+            if(listOfSquares[backwards].currentPiece != null && listOfSquares[backwards].name != currentSquare.name)
             {
-                if(!legalMovement.ContainsKey(possibleColMovement))
-                    legalMovement.Add(possibleColMovement, false);
-
-                if(possibleColMovement.currentPiece != currentSquare.currentPiece)
-                    obstacle = true;
+                obstacle = true;
+                print(listOfSquares[backwards].name);
             }
-
-            if(obstacle)
-            {
-                if(!legalMovement.ContainsKey(possibleColMovement))
-                    legalMovement.Add(possibleColMovement, false);
-            }
-            else
-            {
-                if(!legalMovement.ContainsKey(possibleColMovement))
-                    legalMovement.Add(possibleColMovement, true);
-            }
+            
+            legalMovement.Add(listOfSquares[backwards], !obstacle);
         }
 
         return legalMovement;

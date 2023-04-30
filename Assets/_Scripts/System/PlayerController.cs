@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour 
@@ -42,6 +43,7 @@ public class PlayerController : MonoBehaviour
             SelectMovablePiece();
             return;
         }
+
         Target();
     }
     public void StopSelection()
@@ -91,10 +93,43 @@ public class PlayerController : MonoBehaviour
                     {
                         child.materials = newGhostMaterial;
                     }
+
                     ghostPiece.GetComponent<MeshRenderer>().materials = newGhostMaterial;
+
+                    MovePiece(square);
                 }
             }
         }
+    }
+
+    void MovePiece(Square hoveredSquare)
+    {
+        if(Input.GetKeyDown(KeyCode.Mouse0))
+        {
+            StartCoroutine(LerpPieceMovement(GameManager.Get().selectedPiece, hoveredSquare));
+        }
+    }
+
+    IEnumerator LerpPieceMovement(Piece piece, Square square)
+    {
+        float elapsedTime = 0;
+        float waitTime = 1f;
+        piece.transform.parent = square.transform;
+        Vector3 initialPos = piece.transform.localPosition;
+
+        while (elapsedTime < waitTime)
+        {
+            piece.transform.localPosition = Vector3.Lerp(initialPos, new Vector3(0, piece.initialY, 0), (elapsedTime / waitTime));
+            elapsedTime += Time.deltaTime;
+        
+            yield return null;
+        }  
+
+        piece.transform.localPosition = new Vector3(0, piece.initialY, 0);
+        piece.UpdateSquareInformation(square);
+        StopSelection();
+        
+        yield return null;
     }
 
     void Target()
