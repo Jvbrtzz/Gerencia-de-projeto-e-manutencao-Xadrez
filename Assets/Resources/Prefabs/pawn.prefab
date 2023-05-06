@@ -179,6 +179,7 @@ GameObject:
   - component: {fileID: 3859877150268019934}
   - component: {fileID: 5285517274148465255}
   - component: {fileID: 8203036527408871515}
+  - component: {fileID: 7539399949429035229}
   m_Layer: 0
   m_Name: pawn
   m_TagString: Untagged
@@ -235,7 +236,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 5004627877001601, guid: 115b5c3e7da3a864a97b47197753fb3d, type: 3}
+  - {fileID: -3673198790986209747, guid: 115b5c3e7da3a864a97b47197753fb3d, type: 3}
   - {fileID: 4438364402714204063, guid: 115b5c3e7da3a864a97b47197753fb3d, type: 3}
   - {fileID: -3673198790986209747, guid: 115b5c3e7da3a864a97b47197753fb3d, type: 3}
   m_StaticBatchInfo:
@@ -288,6 +289,21 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &7539399949429035229
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3377978402821266781}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a7d2652e8ebce204a896bea4d7ac72e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mainMaterialPos: 0
+  secondaryMaterialPos: 2
+  glassMaterialPos: 1
 --- !u!1 &3575443140832551993
 GameObject:
   m_ObjectHideFlags: 0

@@ -36,4 +36,10 @@ public class GameManager : Singleton
     {
 
     }
+
+    public void PassTurn()
+    {
+        isPlayersTurn = !isPlayersTurn;
+        EventsManager.Get().Call_PassTurn();
+    }
 }

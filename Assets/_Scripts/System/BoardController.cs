@@ -20,7 +20,8 @@ public class BoardController : MonoBehaviour
         EventsManager.HoverNothing += HoverNothing;
         
         InitializeGrid();
-        SpawnPieces();
+        SpawnPlayerPieces();
+        SpawnOpponentPieces();
     }
 
     private void OnDestroy() 
@@ -53,27 +54,54 @@ public class BoardController : MonoBehaviour
         }
     }
 
-    void SpawnPieces()
+    void SpawnPlayerPieces()
+    {
+        //Starting with Pawns
+        // for(int p = 0; p < 8; p++) 
+        // {
+        //     var pawn = Instantiate(pawnPrefab);
+        //     pawn.transform.parent = squareGrid[GetAlphabetLetter(p) + "2"].transform;
+        //     pawn.transform.localPosition = Vector3.zero;
+        //     pawn.transform.Rotate(new Vector3(0, 0, 90));
+
+        //     pawn.AddComponent<Pawn>();
+        //     pawn.GetComponent<Pawn>().UpdateSquareInformation(squareGrid[GetAlphabetLetter(p) + "2"]);
+        //     pawn.GetComponent<Pawn>().SetOwnership(true);
+        // }
+
+        var rook = Instantiate(rookPrefab);
+        rook.transform.parent = squareGrid[GetAlphabetLetter(0) + "1"].transform;
+        rook.transform.Rotate(new Vector3(0, 0, 90));
+
+        rook.AddComponent<Rook>();
+        rook.transform.localPosition = new Vector3(0, rook.GetComponent<Rook>().initialY, 0);
+        rook.GetComponent<Rook>().UpdateSquareInformation(squareGrid[GetAlphabetLetter(0) + "1"]);
+        rook.GetComponent<Rook>().SetOwnership(true);
+
+    }
+
+    void SpawnOpponentPieces()
     {
         //Starting with Pawns
         for(int p = 0; p < 8; p++) 
         {
             var pawn = Instantiate(pawnPrefab);
-            pawn.transform.parent = squareGrid[GetAlphabetLetter(p) + "2"].transform;
+            pawn.transform.parent = squareGrid[GetAlphabetLetter(p) + "7"].transform;
             pawn.transform.localPosition = Vector3.zero;
-            pawn.transform.Rotate(new Vector3(0, 0, 90));
+            pawn.transform.Rotate(new Vector3(0, 0, 270));
 
             pawn.AddComponent<Pawn>();
-            pawn.GetComponent<Pawn>().UpdateSquareInformation(squareGrid[GetAlphabetLetter(p) + "2"]);
+            pawn.GetComponent<Pawn>().UpdateSquareInformation(squareGrid[GetAlphabetLetter(p) + "7"]);
+            pawn.GetComponent<Pawn>().SetOwnership(false);
         }
 
-        var rook = Instantiate(rookPrefab);
-        rook.transform.parent = squareGrid[GetAlphabetLetter(1) + "1"].transform;
-        rook.transform.Rotate(new Vector3(0, 0, 90));
+        // var rook = Instantiate(rookPrefab);
+        // rook.transform.parent = squareGrid[GetAlphabetLetter(1) + "1"].transform;
+        // rook.transform.Rotate(new Vector3(0, 0, 90));
 
-        rook.AddComponent<Rook>();
-        rook.transform.localPosition = new Vector3(0, rook.GetComponent<Rook>().initialY, 0);
-        rook.GetComponent<Rook>().UpdateSquareInformation(squareGrid[GetAlphabetLetter(1) + "1"]);
+        // rook.AddComponent<Rook>();
+        // rook.transform.localPosition = new Vector3(0, rook.GetComponent<Rook>().initialY, 0);
+        // rook.GetComponent<Rook>().UpdateSquareInformation(squareGrid[GetAlphabetLetter(1) + "1"]);
     }
 
     void SelectPiece(object[] obj)
@@ -91,7 +119,14 @@ public class BoardController : MonoBehaviour
         foreach(var movement in piece.LegalMovement(possibleSquares))
         {
             movement.Key.transform.GetComponent<MeshRenderer>().material = selectableMaterial;
+
+            if(movement.Key.currentPiece != null && movement.Key.currentPiece.isPlayerOwned != piece.isPlayerOwned)
+            {
+                movement.Key.transform.GetComponent<MeshRenderer>().material.color = Color.red;
+            }
+
             movement.Key.transform.GetComponent<MeshRenderer>().enabled = movement.Value;
+
             if(movement.Value)
             {
                 GameManager.Get().possibleSquares.Add(movement.Key);

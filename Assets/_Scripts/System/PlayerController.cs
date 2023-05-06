@@ -1,16 +1,19 @@
 using System.Collections;
 using UnityEngine;
 
-public class PlayerController : MonoBehaviour 
+public class PlayerController : MonoBehaviour
 {
     [SerializeField] private bool selectingPiece;
     [SerializeField] private Material ghostMaterial;
-    [SerializeField] private Outline outlined;
+    private GameObject selectedLight;
+    private Outline outlined;
     private GameObject ghostPiece;
-    
+
+    private bool onMovingPiece;
+
     public void OnPieceHovered(Piece piece)
     {
-        if(GameManager.Get().isPlayersTurn)
+        if (GameManager.Get().isPlayersTurn && piece.isPlayerOwned)
         {
             EventsManager.Get().Call_HoverPiece(piece);
 
@@ -18,8 +21,9 @@ public class PlayerController : MonoBehaviour
             {
                 selectingPiece = true;
 
-                if(piece.transform.gameObject.GetComponent<Outline>() == null)
+                if (piece.transform.gameObject.GetComponent<Outline>() == null)
                 {
+                    selectedLight = Instantiate(Resources.Load<GameObject>(CommonData.Common.prefabFolder + "SelectedLight"), piece.transform);
                     outlined = piece.transform.gameObject.AddComponent<Outline>();
                     outlined.OutlineMode = Outline.Mode.OutlineVisible;
                     outlined.OutlineColor = Color.green;
@@ -31,7 +35,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void Update() 
+    private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
@@ -46,22 +50,27 @@ public class PlayerController : MonoBehaviour
 
         Target();
     }
+
     public void StopSelection()
     {
         if (ghostPiece != null)
             Destroy(ghostPiece);
 
-        if(outlined != null)
+        if (outlined != null)
         {
+            Destroy(selectedLight);
             Destroy(outlined);
         }
 
         GameManager.Get().selectedPiece = null;
-        selectingPiece = true;
+        selectingPiece = false;
     }
 
     void SelectMovablePiece()
     {
+        if (onMovingPiece)
+            return;
+
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
         RaycastHit[] hits = Physics.RaycastAll(ray);
@@ -78,18 +87,19 @@ public class PlayerController : MonoBehaviour
 
                 var square = hit.collider.GetComponent<Square>();
 
-                if(GameManager.Get().possibleSquares.Contains(square))
+                if (GameManager.Get().possibleSquares.Contains(square))
                 {
                     ghostPiece = Instantiate(GameManager.Get().selectedPiece.transform.gameObject, square.transform);
                     ghostPiece.transform.localPosition = new Vector3(0, GameManager.Get().selectedPiece.GetComponent<Piece>().initialY, 0);
+                    Destroy(ghostPiece.transform.GetChild(ghostPiece.transform.childCount - 1).gameObject);
 
                     var mats = ghostPiece.GetComponent<MeshRenderer>().materials;
                     var newGhostMaterial = new Material[mats.Length];
-                    for(int e = 0; e < mats.Length; e++)
+                    for (int e = 0; e < mats.Length; e++)
                     {
                         newGhostMaterial[e] = ghostMaterial;
                     }
-                    foreach(var child in ghostPiece.GetComponentsInChildren<MeshRenderer>())
+                    foreach (var child in ghostPiece.GetComponentsInChildren<MeshRenderer>())
                     {
                         child.materials = newGhostMaterial;
                     }
@@ -102,11 +112,29 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    void MovePiece(Square hoveredSquare)
+    async void MovePiece(Square hoveredSquare)
     {
-        if(Input.GetKeyDown(KeyCode.Mouse0))
+        if (Input.GetKeyDown(KeyCode.Mouse0))
         {
+            onMovingPiece = true;
+            var startingRot = GameManager.Get().selectedPiece.transform.rotation;
+            EventsManager.Get().Call_HoverNothing();
+            if (ghostPiece != null)
+                Destroy(ghostPiece);
+
+            if (hoveredSquare.currentPiece != null && hoveredSquare.currentPiece.isPlayerOwned != GameManager.Get().selectedPiece.isPlayerOwned)
+            {
+                // var v = GameManager.Get().selectedPiece.GetComponentInChildren<RaycastRotator>().Find(hoveredSquare.currentPiece);
+                // GameManager.Get().selectedPiece.transform.Rotate(new Vector3(
+                //    0, 
+                //    v.y, 
+                //    0));
+                await GameManager.Get().selectedPiece.TriggerKillAnimation(hoveredSquare.currentPiece);
+                // hoveredSquare.currentPiece.TriggerDeath();
+            }
+
             StartCoroutine(LerpPieceMovement(GameManager.Get().selectedPiece, hoveredSquare));
+            StopSelection();
         }
     }
 
@@ -121,19 +149,24 @@ public class PlayerController : MonoBehaviour
         {
             piece.transform.localPosition = Vector3.Lerp(initialPos, new Vector3(0, piece.initialY, 0), (elapsedTime / waitTime));
             elapsedTime += Time.deltaTime;
-        
+
             yield return null;
-        }  
+        }
 
         piece.transform.localPosition = new Vector3(0, piece.initialY, 0);
         piece.UpdateSquareInformation(square);
-        StopSelection();
-        
+
+        onMovingPiece = false;
+        GameManager.Get().PassTurn();
+
         yield return null;
     }
 
     void Target()
     {
+        if (onMovingPiece)
+            return;
+
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
         RaycastHit[] hits = Physics.RaycastAll(ray);
@@ -150,14 +183,14 @@ public class PlayerController : MonoBehaviour
                     piece.pieceName,
                     piece.currentSquare.column + piece.currentSquare.row.ToString()
                 );
-                
+
                 OnPieceHovered(piece);
                 break;
             }
-            else if(hit.collider.GetComponent<Square>() != null)
+            else if (hit.collider.GetComponent<Square>() != null)
             {
                 var square = hit.collider.GetComponent<Square>();
-                if(square.currentPiece == null)
+                if (square.currentPiece == null)
                 {
                     EventsManager.Get().Call_HoverElement(
                         "",
@@ -167,7 +200,7 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-        if(hits.Length == 0)
+        if (hits.Length == 0)
         {
             EventsManager.Get().Call_HoverNothing();
         }

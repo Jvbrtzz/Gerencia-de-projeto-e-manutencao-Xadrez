@@ -22,6 +22,7 @@ public class EventsManager : Singleton
     public static event EventsManagerEvent HoverPiece;
     public static event EventsManagerEvent HoverElement;
     public static event EventsManagerEvent HoverNothing;
+    public static event EventsManagerEvent PassTurn;
 
     public delegate void CallbackEvent(object[] obj = null);
     public static event CallbackEvent SelectPiece;
@@ -30,6 +31,11 @@ public class EventsManager : Singleton
     public override void Setup()
     {
 
+    }
+
+    public void Call_PassTurn()
+    {
+        PassTurn?.Invoke(new object[] { });
     }
 
     public void Call_HoverElement(string element, string square)

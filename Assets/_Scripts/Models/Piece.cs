@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 
 public abstract class Piece : MonoBehaviour
@@ -7,13 +8,15 @@ public abstract class Piece : MonoBehaviour
     public Square currentSquare;
     public virtual float initialY { get; set; }
     
+    public bool isPlayerOwned;
+    
     public abstract Dictionary<Square, bool> LegalMovement(List<Square> squares);
 
     private void OnDestroy() 
     {
         currentSquare.currentPiece = null;
     }
-
+    
     public void UpdateSquareInformation(Square newSquare)
     {
         if(currentSquare != null)
@@ -21,6 +24,12 @@ public abstract class Piece : MonoBehaviour
         
         currentSquare = newSquare;
         currentSquare.currentPiece = this;
+    }
+
+    public void SetOwnership(bool playerOwned)
+    {
+        isPlayerOwned = playerOwned;
+        GetComponent<OwnershipColor>().SetupColor(playerOwned);
     }
 
     public List<Square> ListRowPieces(List<Square> squares, int row)
@@ -49,5 +58,18 @@ public abstract class Piece : MonoBehaviour
         }
 
         return columnPieces;
+    }
+
+    public async Task TriggerKillAnimation(Piece target)
+    {
+        await GetComponent<KillAnimation>().TriggerKillAnimation(target);
+    }
+
+    public void TriggerDeath()
+    {
+        var p = Instantiate(Resources.Load<GameObject>(CommonData.Common.prefabFolder + "DeathParticles"), this.transform);
+        p.transform.parent = null;
+        Destroy(this.gameObject);
+        Destroy(p, 4);
     }
 }

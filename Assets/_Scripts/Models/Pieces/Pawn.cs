@@ -13,13 +13,13 @@ public class Pawn : Piece
         {
             if(possibleMovementSquare.currentPiece != null)
             {
-                //invalid if you own the piece
-                legalMovement.Add(possibleMovementSquare, false);
+                if(possibleMovementSquare.currentPiece.isPlayerOwned == this.isPlayerOwned)
+                    legalMovement.Add(possibleMovementSquare, false);
             }
 
             if(possibleMovementSquare.column == currentSquare.column)
             {
-                if(possibleMovementSquare.row == currentSquare.row + 1)
+                if(possibleMovementSquare.row == currentSquare.row + (isPlayerOwned ? 1 : -1))
                 {
                     legalMovement.Add(possibleMovementSquare, true);
                 }
