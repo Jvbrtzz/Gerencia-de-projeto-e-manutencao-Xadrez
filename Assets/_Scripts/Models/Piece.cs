@@ -72,4 +72,31 @@ public abstract class Piece : MonoBehaviour
         Destroy(this.gameObject);
         Destroy(p, 4);
     }
+
+    private void OnDrawGizmos() 
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawLine(transform.position, transform.position + -transform.right * 100f);
+    }
+
+    public void Find(Piece target)
+    {
+        bool hasHit = false;
+        while(!hasHit)
+        {
+            // Spin the object
+            transform.RotateAroundLocal(Vector3.up, 100f * Time.deltaTime);
+
+            // Cast a ray in the direction the object is facing
+            foreach(var hit in Physics.RaycastAll(transform.position, -transform.right, 100f))
+            {
+                // Check if the ray hit an object with the target tag
+                if (hit.collider.GetComponent<Piece>() == target)
+                {
+                    hasHit = true;
+                    break;
+                }
+            }
+        }
+    }
 }

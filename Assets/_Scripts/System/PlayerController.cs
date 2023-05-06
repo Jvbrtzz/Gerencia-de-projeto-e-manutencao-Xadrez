@@ -124,11 +124,7 @@ public class PlayerController : MonoBehaviour
 
             if (hoveredSquare.currentPiece != null && hoveredSquare.currentPiece.isPlayerOwned != GameManager.Get().selectedPiece.isPlayerOwned)
             {
-                // var v = GameManager.Get().selectedPiece.GetComponentInChildren<RaycastRotator>().Find(hoveredSquare.currentPiece);
-                // GameManager.Get().selectedPiece.transform.Rotate(new Vector3(
-                //    0, 
-                //    v.y, 
-                //    0));
+                GameManager.Get().selectedPiece.Find(hoveredSquare.currentPiece);
                 await GameManager.Get().selectedPiece.TriggerKillAnimation(hoveredSquare.currentPiece);
                 // hoveredSquare.currentPiece.TriggerDeath();
             }
@@ -157,7 +153,7 @@ public class PlayerController : MonoBehaviour
         piece.UpdateSquareInformation(square);
 
         onMovingPiece = false;
-        GameManager.Get().PassTurn();
+        // GameManager.Get().PassTurn();
 
         yield return null;
     }

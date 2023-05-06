@@ -38,8 +38,8 @@ public class Rook : Piece
 
                 if(listOfSquares[forward].currentPiece.isPlayerOwned != isPlayerOwned)
                 {
-                    legalMovement.Add(listOfSquares[forward], obstacle);
-                    continue;
+                    legalMovement.Add(listOfSquares[forward], !obstacle);
+                    break;
                 }
             }
 
@@ -53,7 +53,12 @@ public class Rook : Piece
             if(listOfSquares[backwards].currentPiece != null && listOfSquares[backwards].name != currentSquare.name)
             {
                 obstacle = true;
-                print(listOfSquares[backwards].name);
+                
+                 if(listOfSquares[backwards].currentPiece.isPlayerOwned != isPlayerOwned)
+                {
+                    legalMovement.Add(listOfSquares[backwards], !obstacle);
+                    break;
+                }
             }
             
             legalMovement.Add(listOfSquares[backwards], !obstacle);
