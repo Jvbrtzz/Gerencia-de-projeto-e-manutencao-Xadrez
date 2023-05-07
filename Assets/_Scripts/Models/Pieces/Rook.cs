@@ -8,6 +8,9 @@ public class Rook : Piece
 
     public override Dictionary<Square, bool> LegalMovement(List<Square> possibleMovementSquares)
     {
+        if(!isPlayerOwned)
+            possibleMovementSquares.Reverse();
+            
         Dictionary<Square, bool> legalMovement = new Dictionary<Square, bool>();
         legalMovement = CalculateMovement(legalMovement, possibleMovementSquares, true);
         legalMovement = CalculateMovement(legalMovement, possibleMovementSquares, false);
@@ -39,8 +42,8 @@ public class Rook : Piece
                 if(listOfSquares[forward].currentPiece.isPlayerOwned != isPlayerOwned)
                 {
                     legalMovement.Add(listOfSquares[forward], !obstacle);
-                    break;
                 }
+                break;
             }
 
             legalMovement.Add(listOfSquares[forward], !obstacle);
@@ -54,11 +57,11 @@ public class Rook : Piece
             {
                 obstacle = true;
                 
-                 if(listOfSquares[backwards].currentPiece.isPlayerOwned != isPlayerOwned)
+                if(listOfSquares[backwards].currentPiece.isPlayerOwned != isPlayerOwned)
                 {
                     legalMovement.Add(listOfSquares[backwards], !obstacle);
-                    break;
                 }
+                break;
             }
             
             legalMovement.Add(listOfSquares[backwards], !obstacle);

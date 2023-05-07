@@ -8,6 +8,9 @@ public class Pawn : Piece
     public override Dictionary<Square, bool> LegalMovement(List<Square> possibleMovementSquares)
     {
         Dictionary<Square, bool> legalMovement = new Dictionary<Square, bool>();
+
+        if(!isPlayerOwned)
+            possibleMovementSquares.Reverse();
         
         var obstacle = false;
 

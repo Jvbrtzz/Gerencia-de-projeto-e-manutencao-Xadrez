@@ -318,7 +318,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   laserLine: {fileID: 2692832694850586797}
-  warming: {fileID: 1391397221508308773}
+  particleSystem: {fileID: 1391397221508308773}
 --- !u!1 &2647008928085846857
 GameObject:
   m_ObjectHideFlags: 0

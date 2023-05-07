@@ -13,8 +13,8 @@ public class PlayerController : MonoBehaviour
 
     public void OnPieceHovered(Piece piece)
     {
-        if (GameManager.Get().isPlayersTurn && piece.isPlayerOwned)
-        {
+        // if (GameManager.Get().isPlayersTurn && piece.isPlayerOwned)
+        // {
             EventsManager.Get().Call_HoverPiece(piece);
 
             if (Input.GetKeyDown(KeyCode.Mouse0))
@@ -32,7 +32,7 @@ public class PlayerController : MonoBehaviour
 
                 GameManager.Get().selectedPiece = piece;
             }
-        }
+        // }
     }
 
     private void Update()
