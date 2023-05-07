@@ -90,11 +90,14 @@ public abstract class Piece : MonoBehaviour
             // Cast a ray in the direction the object is facing
             foreach(var hit in Physics.RaycastAll(transform.position, -transform.right, 100f))
             {
-                // Check if the ray hit an object with the target tag
-                if (hit.collider.GetComponent<Piece>() == target)
+                if(hit.collider.tag == "Heart")
                 {
-                    hasHit = true;
-                    break;
+                    // Check if the ray hit an object with the target tag
+                    if (hit.collider.GetComponentInParent<Piece>() == target)
+                    {
+                        hasHit = true;
+                        break;
+                    }
                 }
             }
         }
