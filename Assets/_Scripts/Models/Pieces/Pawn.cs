@@ -18,7 +18,7 @@ public class Pawn : Piece
         {
             if(possibleMovementSquare.column == currentSquare.column)
             {
-                if(possibleMovementSquare.row == currentSquare.row + (isPlayerOwned ? 1 : -1) || possibleMovementSquare.row == currentSquare.row + (isPlayerOwned ? 2 : -2))
+                if(possibleMovementSquare.row == currentSquare.row + (isPlayerOwned ? 1 : -1))
                 {
                     if(possibleMovementSquare.currentPiece == null && !obstacle)
                         legalMovement.Add(possibleMovementSquare, true);
