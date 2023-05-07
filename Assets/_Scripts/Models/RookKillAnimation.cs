@@ -7,11 +7,11 @@ public class RookKillAnimation : KillAnimation
     float laserDuration = 1f;
 
     [SerializeField] LineRenderer laserLine;
-    [SerializeField] ParticleSystem warming;
+    [SerializeField] ParticleSystem particleSystem;
 
     public override async Task TriggerKillAnimation(Piece targetPiece)
     {
-        warming.gameObject.SetActive(true);
+        particleSystem.gameObject.SetActive(true);
         await Task.Delay(1000);
         // float heightDistance = Vector3.Distance(new Vector3(targetPiece.transform.position.x, laserLine.transform.position.y, targetPiece.transform.position.z), targetPiece.transform.position);
         // laserLine.SetPosition(1, new Vector3(-Vector3.Distance(laserLine.transform.position, targetPiece.transform.position), -heightDistance, 0));
@@ -24,7 +24,7 @@ public class RookKillAnimation : KillAnimation
         await Task.Delay(100);
         targetPiece.TriggerDeath();
         await Task.Delay(700);
-        warming.gameObject.SetActive(false);
+        particleSystem.gameObject.SetActive(false);
     }
 
     IEnumerator AnimateLine(Piece targetPiece)

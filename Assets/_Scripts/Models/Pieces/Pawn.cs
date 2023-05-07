@@ -9,19 +9,27 @@ public class Pawn : Piece
     {
         Dictionary<Square, bool> legalMovement = new Dictionary<Square, bool>();
         
+        var obstacle = false;
+
         foreach(var possibleMovementSquare in possibleMovementSquares)
         {
-            if(possibleMovementSquare.currentPiece != null)
-            {
-                if(possibleMovementSquare.currentPiece.isPlayerOwned == this.isPlayerOwned)
-                    legalMovement.Add(possibleMovementSquare, false);
-            }
-
             if(possibleMovementSquare.column == currentSquare.column)
+            {
+                if(possibleMovementSquare.row == currentSquare.row + (isPlayerOwned ? 1 : -1) || possibleMovementSquare.row == currentSquare.row + (isPlayerOwned ? 2 : -2))
+                {
+                    if(possibleMovementSquare.currentPiece == null && !obstacle)
+                        legalMovement.Add(possibleMovementSquare, true);
+                    else
+                        obstacle = true;
+                }
+            }
+            else
             {
                 if(possibleMovementSquare.row == currentSquare.row + (isPlayerOwned ? 1 : -1))
                 {
-                    legalMovement.Add(possibleMovementSquare, true);
+                    if(possibleMovementSquare.column == currentSquare.column -1 || possibleMovementSquare.column == currentSquare.column + 1)
+                        if(possibleMovementSquare.currentPiece != null && possibleMovementSquare.currentPiece.isPlayerOwned != isPlayerOwned)
+                            legalMovement.Add(possibleMovementSquare, true);
                 }
             }
         }

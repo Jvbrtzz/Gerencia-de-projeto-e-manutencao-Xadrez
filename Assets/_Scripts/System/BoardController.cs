@@ -57,17 +57,17 @@ public class BoardController : MonoBehaviour
     void SpawnPlayerPieces()
     {
         //Starting with Pawns
-        // for(int p = 0; p < 8; p++) 
-        // {
-        //     var pawn = Instantiate(pawnPrefab);
-        //     pawn.transform.parent = squareGrid[GetAlphabetLetter(p) + "2"].transform;
-        //     pawn.transform.localPosition = Vector3.zero;
-        //     pawn.transform.Rotate(new Vector3(0, 0, 90));
+        for(int p = 0; p < 8; p++) 
+        {
+            var pawn = Instantiate(pawnPrefab);
+            pawn.transform.parent = squareGrid[GetAlphabetLetter(p) + "2"].transform;
+            pawn.transform.localPosition = Vector3.zero;
+            pawn.transform.Rotate(new Vector3(0, 0, 90));
 
-        //     pawn.AddComponent<Pawn>();
-        //     pawn.GetComponent<Pawn>().UpdateSquareInformation(squareGrid[GetAlphabetLetter(p) + "2"]);
-        //     pawn.GetComponent<Pawn>().SetOwnership(true);
-        // }
+            pawn.AddComponent<Pawn>();
+            pawn.GetComponent<Pawn>().UpdateSquareInformation(squareGrid[GetAlphabetLetter(p) + "2"]);
+            pawn.GetComponent<Pawn>().SetOwnership(true);
+        }
 
         var rook = Instantiate(rookPrefab);
         rook.transform.parent = squareGrid[GetAlphabetLetter(0) + "1"].transform;
