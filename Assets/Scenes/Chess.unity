@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028334, g: 0.2257134, b: 0.30692226, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1130,6 +1130,14 @@ MonoBehaviour:
   pawnPrefab: {fileID: 3377978402821266781, guid: d680f33e620f14c47a35089de7ce597d,
     type: 3}
   rookPrefab: {fileID: 2575097708563122108, guid: 13b6d4ffe29f39240aec0a52fe405c76,
+    type: 3}
+  knightPrefab: {fileID: 6815915750229706693, guid: 9c8b4d26eacc79e4eb8754434d240dc0,
+    type: 3}
+  queenPrefab: {fileID: 6492500749177110751, guid: 7e29f6c22fef3474cba9e1c18cbd81e2,
+    type: 3}
+  kingPrefab: {fileID: 9169616957535407329, guid: d175cc6908198dc4cb53c51dfb96a90f,
+    type: 3}
+  bishopPrefab: {fileID: 3825480492634876629, guid: 44f63fd130baa534894d7b1422d5cbfe,
     type: 3}
 --- !u!114 &1032293277
 MonoBehaviour:

@@ -510,6 +510,8 @@ GameObject:
   - component: {fileID: 4115961327705668099}
   - component: {fileID: 5650524055303313356}
   - component: {fileID: -4777879242858714945}
+  - component: {fileID: 174543309543750446}
+  - component: {fileID: 7140604100254808253}
   m_Layer: 0
   m_Name: king
   m_TagString: Untagged
@@ -603,3 +605,30 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 2.8375297, y: 1.962023, z: 2.134829}
   m_Center: {x: 0.08804833, y: -2.3548096e-15, z: -0.3314099}
+--- !u!114 &174543309543750446
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9169616957535407329}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a7d2652e8ebce204a896bea4d7ac72e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mainMaterialPos: 1
+  secondaryMaterialPos: 0
+  glassMaterialPos: 2
+--- !u!114 &7140604100254808253
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9169616957535407329}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 23896e03ff39b0a4ca8a9c65bfffa4e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

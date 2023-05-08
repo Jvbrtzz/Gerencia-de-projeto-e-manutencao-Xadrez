@@ -178,6 +178,8 @@ GameObject:
   - component: {fileID: 3424809130302754517}
   - component: {fileID: 6337165242958755503}
   - component: {fileID: -7436525875062219869}
+  - component: {fileID: 7495013796571958577}
+  - component: {fileID: 2199805861775680073}
   m_Layer: 0
   m_Name: queen
   m_TagString: Untagged
@@ -271,6 +273,33 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 2.8375297, y: 1.9620231, z: 2.062887}
   m_Center: {x: 0.08804833, y: 0, z: -0.36738095}
+--- !u!114 &7495013796571958577
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6492500749177110751}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4fa271ea298eba94d98009ac65059e27, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2199805861775680073
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6492500749177110751}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a7d2652e8ebce204a896bea4d7ac72e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mainMaterialPos: 1
+  secondaryMaterialPos: 0
+  glassMaterialPos: 2
 --- !u!1 &6989055080773203260
 GameObject:
   m_ObjectHideFlags: 0

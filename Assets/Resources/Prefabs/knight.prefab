@@ -348,6 +348,8 @@ GameObject:
   - component: {fileID: 7769337370163403068}
   - component: {fileID: 8266371992955318834}
   - component: {fileID: -4252139896970704764}
+  - component: {fileID: 1404914562965472552}
+  - component: {fileID: 4132603234166816973}
   m_Layer: 0
   m_Name: knight
   m_TagString: Untagged
@@ -404,7 +406,6 @@ MeshRenderer:
   m_Materials:
   - {fileID: 5004627877001601, guid: 115b5c3e7da3a864a97b47197753fb3d, type: 3}
   - {fileID: 4438364402714204063, guid: 115b5c3e7da3a864a97b47197753fb3d, type: 3}
-  - {fileID: -895731622520930709, guid: 115b5c3e7da3a864a97b47197753fb3d, type: 3}
   - {fileID: -3673198790986209747, guid: 115b5c3e7da3a864a97b47197753fb3d, type: 3}
   m_StaticBatchInfo:
     firstSubMesh: 0
@@ -440,3 +441,30 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 3.895927, y: 2.9757173, z: 3.150035}
   m_Center: {x: -0.5333421, y: 0, z: -0.02832168}
+--- !u!114 &1404914562965472552
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6815915750229706693}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a7d2652e8ebce204a896bea4d7ac72e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mainMaterialPos: 0
+  secondaryMaterialPos: 1
+  glassMaterialPos: 2
+--- !u!114 &4132603234166816973
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6815915750229706693}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 77928a413e1c53242866edcf3323ae0a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
