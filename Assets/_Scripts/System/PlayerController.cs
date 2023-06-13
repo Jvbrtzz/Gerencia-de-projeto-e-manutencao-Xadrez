@@ -116,6 +116,8 @@ public class PlayerController : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Mouse0))
         {
+            GameManager.Get().selectedPiece.OnFirstMovement();
+            
             onMovingPiece = true;
             var startingRot = GameManager.Get().selectedPiece.transform.rotation;
             EventsManager.Get().Call_HoverNothing();

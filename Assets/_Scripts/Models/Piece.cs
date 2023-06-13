@@ -12,6 +12,8 @@ public abstract class Piece : MonoBehaviour
     
     public abstract Dictionary<Square, bool> LegalMovement(List<Square> squares);
 
+    public virtual void OnFirstMovement() {}
+
     private void OnDestroy() 
     {
         currentSquare.currentPiece = null;
