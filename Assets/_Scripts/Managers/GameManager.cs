@@ -28,6 +28,7 @@ public class GameManager : Singleton
 
     public bool isPlayersTurn = true;
     public Piece selectedPiece;
+    public List<Square> squareGrid = new List<Square>();
     public List<Square> possibleSquares = new List<Square>();
 
     #endregion
@@ -41,5 +42,16 @@ public class GameManager : Singleton
     {
         isPlayersTurn = !isPlayersTurn;
         EventsManager.Get().Call_PassTurn();
+    }
+
+    public Square GetSquare(int row, int column)
+    {
+        foreach(var p in squareGrid)
+        {
+            if(p.row == row && p.column == column)
+                return p;
+        }
+
+        return null;
     }
 }

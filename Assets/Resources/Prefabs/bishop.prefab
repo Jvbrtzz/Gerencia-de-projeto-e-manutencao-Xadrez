@@ -5435,7 +5435,7 @@ GameObject:
   - component: {fileID: 51722932394072178}
   - component: {fileID: 6124726528948555414}
   m_Layer: 0
-  m_Name: Sparks (1)
+  m_Name: Crosses
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6473,8 +6473,17 @@ ParticleSystem:
           inWeight: 0
           outWeight: 0
         - serializedVersion: 3
+          time: 0.9066821
+          value: 0.31258082
+          inSlope: -0.16336724
+          outSlope: -0.16336724
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0.33333334
+          outWeight: 0.33333334
+        - serializedVersion: 3
           time: 1
-          value: 0.24324417
+          value: 0
           inSlope: 2
           outSlope: 2
           tangentMode: 0
@@ -34855,7 +34864,7 @@ ParticleSystemRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: d805e1faffd28644cbf7674fe3038796, type: 2}
-  - {fileID: 2100000, guid: a9bd144ac7372b842b3a0dca69098716, type: 2}
+  - {fileID: 2100000, guid: 6d0695117e970004d80b38ee84035885, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

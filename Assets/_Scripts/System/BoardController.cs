@@ -54,6 +54,8 @@ public class BoardController : MonoBehaviour
                 sqGO.GetComponent<Square>().column = GetAlphabetLetter(e);
                 sqGO.GetComponent<Square>().row = i + 1;
                 squareGrid.Add(sqGO.name, sqGO.GetComponent<Square>());
+
+                GameManager.Get().squareGrid.Add(sqGO.GetComponent<Square>());
             }
         }
     }
