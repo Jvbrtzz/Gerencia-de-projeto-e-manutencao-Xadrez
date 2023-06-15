@@ -131,6 +131,9 @@ public class PlayerController : MonoBehaviour
         if (ghostPiece != null)
             Destroy(ghostPiece);
 
+        if(Castling(GameManager.Get().selectedPiece, hoveredSquare))
+            return;
+
         if (hoveredSquare.currentPiece != null && hoveredSquare.currentPiece.isPlayerOwned != GameManager.Get().selectedPiece.isPlayerOwned)
         {
             GameManager.Get().selectedPiece.Find(hoveredSquare.currentPiece);
@@ -175,6 +178,26 @@ public class PlayerController : MonoBehaviour
         yield return null;
     }
 
+    bool Castling(Piece piece, Square rookSquare)
+    {
+        if(rookSquare.currentPiece is Rook && piece is King)
+        {
+            if(rookSquare.column == 'h')
+            {
+                StartCoroutine(LerpPieceMovement(piece, GameManager.Get().GetSquare(1,'g')));
+                StartCoroutine(LerpPieceMovement(rookSquare.currentPiece, GameManager.Get().GetSquare(1,'f')));
+            }
+            else
+            {
+                StartCoroutine(LerpPieceMovement(piece, GameManager.Get().GetSquare(1,'c')));
+                StartCoroutine(LerpPieceMovement(rookSquare.currentPiece, GameManager.Get().GetSquare(1,'d')));
+            }
+            return true;
+        }
+
+        return false;
+    }
+    
     void Target()
     {
         if (onMovingPiece)

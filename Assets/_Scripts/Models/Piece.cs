@@ -10,10 +10,13 @@ public abstract class Piece : MonoBehaviour
     public virtual float initialY { get; set; }
 
     public bool isPlayerOwned;
+    public bool hasMoved = false;
 
     public abstract Dictionary<Square, bool> LegalMovement(List<Square> squares);
 
-    public virtual void OnFirstMovement() { }
+    public virtual void OnFirstMovement() { hasMoved = true; }
+
+    public virtual void OnSpecialAvailableMovement() { }
 
     private void FixedUpdate() 
     {

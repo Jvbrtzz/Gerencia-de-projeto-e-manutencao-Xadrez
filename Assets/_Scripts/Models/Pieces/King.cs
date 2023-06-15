@@ -20,6 +20,10 @@ public class King : Piece
             {
                 legalMovement.Add(square, true);
             }
+            else if (CanCastle(square))
+            {
+                legalMovement.Add(square, true);
+            }
         }
 
         return legalMovement;
@@ -32,4 +36,40 @@ public class King : Piece
 
         return (rowDiff <= 1 && colDiff <= 1);
     }
+
+    bool CanCastle(Square square)
+    {
+        // Check if the king has moved
+        if (hasMoved)
+            return false;
+
+        // Check if the square contains a rook owned by the same player
+        if (square.currentPiece != null && square.currentPiece.isPlayerOwned == isPlayerOwned && square.currentPiece is Rook)
+        {
+            Rook rook = (Rook)square.currentPiece;
+
+            // Check if the rook has not moved
+            if (!rook.hasMoved)
+            {
+                // Check if the squares between the king and rook are empty
+                int direction = square.column > currentSquare.column ? 1 : -1;
+                int startColumn = currentSquare.column + direction;
+                int endColumn = square.column - direction;
+
+                for (int column = startColumn; column != endColumn; column += direction)
+                {
+                    Square intermediateSquare = GameManager.Get().GetSquare(currentSquare.row, column);
+                    print(intermediateSquare.column + intermediateSquare.row.ToString() + " " + intermediateSquare.currentPiece);
+
+                    if (intermediateSquare.currentPiece != null)
+                        return false;
+                }
+                
+                return true;
+            }
+        }
+
+        return false;
+    }
+
 }

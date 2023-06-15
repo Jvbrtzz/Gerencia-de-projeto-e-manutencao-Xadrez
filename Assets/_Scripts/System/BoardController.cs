@@ -69,8 +69,8 @@ public class BoardController : MonoBehaviour
         SpawnKnight("1", 6, true);
         SpawnBishop("1", 2, true);
         SpawnBishop("1", 5, true);
-        SpawnKing("1", 3, true);
-        SpawnQueen("1", 4, true);
+        SpawnKing("1", 4, true);
+        SpawnQueen("1", 3, true);
     }
 
     void SpawnOpponentPieces()
@@ -82,8 +82,8 @@ public class BoardController : MonoBehaviour
         SpawnKnight("8", 6, false);
         SpawnBishop("8", 2, false);
         SpawnBishop("8", 5, false);
-        SpawnKing("8", 3, false);
-        SpawnQueen("8", 4, false);
+        SpawnKing("8", 4, false);
+        SpawnQueen("8", 3, false);
     }
 
     void SpawnQueen(string row, int column, bool playerOwned)
