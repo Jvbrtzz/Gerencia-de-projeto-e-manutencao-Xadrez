@@ -1,5 +1,50 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &71707939984370104
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1503415537447979630}
+  - component: {fileID: 3847229491731709931}
+  m_Layer: 0
+  m_Name: Heart
+  m_TagString: Heart
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1503415537447979630
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 71707939984370104}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: -0.52}
+  m_LocalScale: {x: 0.85384697, y: 0.8538471, z: 0.8538471}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7034642367522601882}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &3847229491731709931
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 71707939984370104}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.3, y: 0.54443485, z: 3.1419795}
+  m_Center: {x: 0, y: -0.017223446, z: 0.06322229}
 --- !u!1 &522616341692287287
 GameObject:
   m_ObjectHideFlags: 0
@@ -5234,7 +5279,7 @@ Transform:
   - {fileID: 3705708486253934175}
   - {fileID: 3318459305403222567}
   m_Father: {fileID: 7034642367522601882}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5592449950298145198
 GameObject:
@@ -15156,7 +15201,7 @@ GameObject:
   - component: {fileID: 5650524055303313356}
   - component: {fileID: -4777879242858714945}
   - component: {fileID: 174543309543750446}
-  - component: {fileID: 7975539182213520417}
+  - component: {fileID: 7971546483350586542}
   m_Layer: 0
   m_Name: king
   m_TagString: Untagged
@@ -15182,6 +15227,7 @@ Transform:
   - {fileID: 3264865361863817550}
   - {fileID: 685622799850340759}
   - {fileID: 1172238135069372760}
+  - {fileID: 1503415537447979630}
   - {fileID: 2386909484053329692}
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -15266,7 +15312,7 @@ MonoBehaviour:
   mainMaterialPos: 1
   secondaryMaterialPos: 0
   glassMaterialPos: 2
---- !u!114 &7975539182213520417
+--- !u!114 &7971546483350586542
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -15275,7 +15321,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 9169616957535407329}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8d545e06e86db5d4b90181de6d500716, type: 3}
+  m_Script: {fileID: 11500000, guid: 1c43b657f4fa1c54a9cfd3baedf3e584, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   particleSystem: {fileID: 4505895816959281986}

@@ -5129,7 +5129,7 @@ GameObject:
   - component: {fileID: 3859877150268019934}
   - component: {fileID: 5285517274148465255}
   - component: {fileID: 7539399949429035229}
-  - component: {fileID: 4862628334906755801}
+  - component: {fileID: 8121611586569049119}
   m_Layer: 0
   m_Name: pawn
   m_TagString: Untagged
@@ -5240,7 +5240,7 @@ MonoBehaviour:
   mainMaterialPos: 0
   secondaryMaterialPos: 2
   glassMaterialPos: 1
---- !u!114 &4862628334906755801
+--- !u!114 &8121611586569049119
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -5249,7 +5249,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 3377978402821266781}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8d545e06e86db5d4b90181de6d500716, type: 3}
+  m_Script: {fileID: 11500000, guid: 1c43b657f4fa1c54a9cfd3baedf3e584, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   particleSystem: {fileID: 1142216017733239841}

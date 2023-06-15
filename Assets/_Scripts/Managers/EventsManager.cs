@@ -23,6 +23,7 @@ public class EventsManager : Singleton
     public static event EventsManagerEvent HoverElement;
     public static event EventsManagerEvent HoverNothing;
     public static event EventsManagerEvent PassTurn;
+    public static event EventsManagerEvent EndGame;
 
     public delegate void CallbackEvent(object[] obj = null);
     public static event CallbackEvent SelectPiece;
@@ -51,5 +52,10 @@ public class EventsManager : Singleton
     public void Call_HoverPiece(Piece hoveredPiece)
     {
         HoverPiece?.Invoke(new object[] { hoveredPiece });
+    }
+
+    public void Call_EndGame(bool isPlayerVictory)
+    {
+        EndGame?.Invoke(new object[] { isPlayerVictory });
     }
 }

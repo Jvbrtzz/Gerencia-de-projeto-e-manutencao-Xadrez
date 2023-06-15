@@ -22,13 +22,13 @@ public class BoardController : MonoBehaviour
         EventsManager.HoverPiece += SelectPiece;
         EventsManager.HoverElement += Hover;
         EventsManager.HoverNothing += HoverNothing;
-        
+
         InitializeGrid();
         SpawnPlayerPieces();
         SpawnOpponentPieces();
     }
 
-    private void OnDestroy() 
+    private void OnDestroy()
     {
         EventsManager.HoverPiece -= SelectPiece;
         EventsManager.HoverElement -= Hover;
@@ -37,7 +37,7 @@ public class BoardController : MonoBehaviour
 
     private void Update()
     {
-       
+
     }
 
     void InitializeGrid()
@@ -108,6 +108,11 @@ public class BoardController : MonoBehaviour
         king.transform.localPosition = new Vector3(0, king.GetComponent<King>().initialY, 0);
         king.GetComponent<King>().UpdateSquareInformation(squareGrid[GetAlphabetLetter(column) + row]);
         king.GetComponent<King>().SetOwnership(playerOwned);
+
+        if (!playerOwned)
+            GameManager.Get().opponentKing = king.GetComponent<King>();
+        else
+            GameManager.Get().playerKing = king.GetComponent<King>();
     }
 
     void SpawnBishop(string row, int column, bool playerOwned)
@@ -169,16 +174,16 @@ public class BoardController : MonoBehaviour
         GameManager.Get().possibleSquares.Clear();
         List<Square> possibleSquares = new List<Square>();
 
-        foreach(var sq in squareGrid)
+        foreach (var sq in squareGrid)
         {
             possibleSquares.Add(sq.Value);
         }
 
-        foreach(var movement in piece.LegalMovement(possibleSquares))
+        foreach (var movement in piece.LegalMovement(possibleSquares))
         {
             movement.Key.transform.GetComponent<MeshRenderer>().material = selectableMaterial;
 
-            if(movement.Key.currentPiece != null && movement.Key.currentPiece.isPlayerOwned != piece.isPlayerOwned)
+            if (movement.Key.currentPiece != null && movement.Key.currentPiece.isPlayerOwned != piece.isPlayerOwned)
             {
                 movement.Key.transform.GetComponent<MeshRenderer>().material.color = Color.red;
                 movement.Key.transform.GetComponent<MeshRenderer>().enabled = true;
@@ -188,7 +193,7 @@ public class BoardController : MonoBehaviour
             {
                 movement.Key.transform.GetComponent<MeshRenderer>().enabled = movement.Value;
 
-                if(movement.Value)
+                if (movement.Value)
                 {
                     GameManager.Get().possibleSquares.Add(movement.Key);
                 }
@@ -198,7 +203,7 @@ public class BoardController : MonoBehaviour
 
     void HoverNothing(object[] obj)
     {
-        foreach(var square in squareGrid)
+        foreach (var square in squareGrid)
         {
             square.Value.transform.GetComponent<MeshRenderer>().enabled = false;
         }
@@ -206,11 +211,11 @@ public class BoardController : MonoBehaviour
 
     void Hover(object[] obj)
     {
-        foreach(var square in squareGrid)
+        foreach (var square in squareGrid)
         {
             square.Value.transform.GetComponent<MeshRenderer>().enabled = false;
         }
-        
+
         squareGrid[(string)obj[1]].transform.GetComponent<MeshRenderer>().material = hoverMaterial;
         squareGrid[(string)obj[1]].transform.GetComponent<MeshRenderer>().enabled = true;
     }

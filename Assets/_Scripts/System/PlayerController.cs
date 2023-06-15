@@ -13,8 +13,8 @@ public class PlayerController : MonoBehaviour
 
     public void OnPieceHovered(Piece piece)
     {
-        // if (GameManager.Get().isPlayersTurn && piece.isPlayerOwned)
-        // {
+        if (GameManager.Get().isPlayersTurn && piece.isPlayerOwned)
+        {
             EventsManager.Get().Call_HoverPiece(piece);
 
             if (Input.GetKeyDown(KeyCode.Mouse0))
@@ -32,11 +32,17 @@ public class PlayerController : MonoBehaviour
 
                 GameManager.Get().selectedPiece = piece;
             }
-        // }
+        }
     }
 
     private void Update()
     {
+        if(GameManager.Get().isGameOver)
+        {
+            // print("Game Over");
+            return;
+        }
+
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             StopSelection();
@@ -106,7 +112,10 @@ public class PlayerController : MonoBehaviour
 
                     ghostPiece.GetComponent<MeshRenderer>().materials = newGhostMaterial;
 
-                    MovePiece(square);
+                    if (Input.GetKeyDown(KeyCode.Mouse0))
+                    {
+                        MovePiece(square);
+                    }
                 }
             }
         }
@@ -114,30 +123,27 @@ public class PlayerController : MonoBehaviour
 
     async void MovePiece(Square hoveredSquare)
     {
-        if (Input.GetKeyDown(KeyCode.Mouse0))
+        GameManager.Get().selectedPiece.OnFirstMovement();
+
+        onMovingPiece = true;
+        var startingRot = GameManager.Get().selectedPiece.transform.rotation;
+        EventsManager.Get().Call_HoverNothing();
+        if (ghostPiece != null)
+            Destroy(ghostPiece);
+
+        if (hoveredSquare.currentPiece != null && hoveredSquare.currentPiece.isPlayerOwned != GameManager.Get().selectedPiece.isPlayerOwned)
         {
-            GameManager.Get().selectedPiece.OnFirstMovement();
-            
-            onMovingPiece = true;
-            var startingRot = GameManager.Get().selectedPiece.transform.rotation;
-            EventsManager.Get().Call_HoverNothing();
-            if (ghostPiece != null)
-                Destroy(ghostPiece);
-
-            if (hoveredSquare.currentPiece != null && hoveredSquare.currentPiece.isPlayerOwned != GameManager.Get().selectedPiece.isPlayerOwned)
-            {
-                GameManager.Get().selectedPiece.Find(hoveredSquare.currentPiece);
-                await GameManager.Get().selectedPiece.TriggerKillAnimation(hoveredSquare.currentPiece);
-                // hoveredSquare.currentPiece.TriggerDeath();
-            }
-
-            StartCoroutine(LerpPieceMovement(GameManager.Get().selectedPiece, hoveredSquare));
-            StopSelection();
+            GameManager.Get().selectedPiece.Find(hoveredSquare.currentPiece);
+            await GameManager.Get().selectedPiece.TriggerKillAnimation(hoveredSquare.currentPiece);
         }
+
+        StartCoroutine(LerpPieceMovement(GameManager.Get().selectedPiece, hoveredSquare));
     }
 
     IEnumerator LerpPieceMovement(Piece piece, Square square)
     {
+        StopSelection();
+        
         float elapsedTime = 0;
         float waitTime = 1f;
         piece.transform.parent = square.transform;
@@ -155,7 +161,16 @@ public class PlayerController : MonoBehaviour
         piece.UpdateSquareInformation(square);
 
         onMovingPiece = false;
-        // GameManager.Get().PassTurn();
+        GameManager.Get().PassTurn();
+        
+        if(!GameManager.Get().isPlayersTurn)
+        {
+            var move = MinimaxAIManager.Get().AIMovement();
+
+            GameManager.Get().selectedPiece = move.currentPiece;
+            MovePiece(move.toSquare);
+        }
+        
 
         yield return null;
     }

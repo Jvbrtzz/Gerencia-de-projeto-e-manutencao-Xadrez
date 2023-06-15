@@ -6,7 +6,7 @@ public class Pawn : Piece
     public override float initialY { get => 0; }
 
     //Pawns exception to move two squares on its first turn
-    bool hasMoved = false;
+    public bool hasMoved = false;
 
     public override Dictionary<Square, bool> LegalMovement(List<Square> possibleMovementSquares)
     {

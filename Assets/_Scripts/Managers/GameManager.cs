@@ -26,10 +26,14 @@ public class GameManager : Singleton
 
     #region Variables
 
+    public bool isGameOver = false;
     public bool isPlayersTurn = true;
     public Piece selectedPiece;
     public List<Square> squareGrid = new List<Square>();
     public List<Square> possibleSquares = new List<Square>();
+
+    public King playerKing;
+    public King opponentKing;
 
     #endregion
 
@@ -46,12 +50,60 @@ public class GameManager : Singleton
 
     public Square GetSquare(int row, int column)
     {
-        foreach(var p in squareGrid)
+        foreach (var p in squareGrid)
         {
-            if(p.row == row && p.column == column)
+            if (p.row == row && p.column == column)
                 return p;
         }
 
         return null;
+    }
+
+    public void EndGame(bool isPlayerVictory)
+    {
+        GameManager.Get().isGameOver = true;
+        EventsManager.Get().Call_EndGame(isPlayerVictory);
+    }
+
+    public bool CheckForCheck(Piece king, List<Square> squareGrid)
+    {
+        Square[] board = new Square[squareGrid.Count];
+        GameManager.Get().squareGrid.CopyTo(board);
+
+        foreach(Square square in board)
+        {
+            if(square.currentPiece != null)
+            {
+                if(square.currentPiece.isPlayerOwned != king.isPlayerOwned)
+                {
+                    foreach(var possibleMovement in square.currentPiece.LegalMovement(board.ToList()))
+                    {
+                        if(possibleMovement.Key == king.currentSquare)
+                        {
+                            print("CHECK");
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+
+        return false;
+    }
+
+    public bool CheckIfMovementChangesCheck(Piece king, Piece currentPiece, Square toSquare)
+    {
+        Square[] board = new Square[GameManager.Get().squareGrid.Count];
+        GameManager.Get().squareGrid.CopyTo(board);
+        
+        for(int i = 0; i < board.Length; i++)
+        {
+            if(board[i] == toSquare)
+            {
+                board[i].currentPiece = currentPiece;
+            }
+        }
+
+        return CheckForCheck(king, board.ToList());
     }
 }
